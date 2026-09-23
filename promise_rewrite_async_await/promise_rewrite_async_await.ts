@@ -33,7 +33,7 @@ function getCustomer(id: number): Promise<Customer> {
     setTimeout(() => {
       resolve({
         id: 1,
-        name: 'Mosh Hamedani',
+        name: 'Bob Smith',
         isGold: true,
         email: 'email',
       });
