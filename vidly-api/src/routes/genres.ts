@@ -1,24 +1,7 @@
 import express, { Request, Response } from 'express';
-import mongoose from 'mongoose';
-import Joi from 'joi';
+import { Genre, validateGenre } from '../models/genre';
 
 const router = express.Router();
-
-interface IGenre {
-  name: string;
-}
-
-const Genre = mongoose.model<IGenre>(
-  'Genre',
-  new mongoose.Schema<IGenre>({
-    name: {
-      type: String,
-      required: true,
-      minlength: 5,
-      maxlength: 50,
-    },
-  })
-);
 
 router.get('/', async (_req: Request, res: Response) => {
   const genres = await Genre.find().sort('name');
@@ -64,13 +47,5 @@ router.get('/:id', async (req: Request, res: Response) => {
 
   res.send(genre);
 });
-
-function validateGenre(genre: unknown) {
-  const schema = Joi.object({
-    name: Joi.string().min(3).required(),
-  });
-
-  return schema.validate(genre);
-}
 
 export default router;

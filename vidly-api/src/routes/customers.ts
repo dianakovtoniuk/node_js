@@ -1,36 +1,7 @@
 import express, { Request, Response } from 'express';
-import mongoose from 'mongoose';
-import Joi from 'joi';
+import { Customer, validateCustomer } from '../models/customer';
 
 const router = express.Router();
-
-interface ICustomer {
-  name: string;
-  isGold: boolean;
-  phone: string;
-}
-
-const Customer = mongoose.model<ICustomer>(
-  'Customer',
-  new mongoose.Schema<ICustomer>({
-    name: {
-      type: String,
-      required: true,
-      minlength: 5,
-      maxlength: 50,
-    },
-    isGold: {
-      type: Boolean,
-      default: false,
-    },
-    phone: {
-      type: String,
-      required: true,
-      minlength: 5,
-      maxlength: 50,
-    },
-  })
-);
 
 router.get('/', async (_req: Request, res: Response) => {
   const customers = await Customer.find().sort('name');
@@ -84,15 +55,5 @@ router.get('/:id', async (req: Request, res: Response) => {
 
   res.send(customer);
 });
-
-function validateCustomer(customer: unknown) {
-  const schema = Joi.object({
-    name: Joi.string().min(5).max(50).required(),
-    phone: Joi.string().min(5).max(50).required(),
-    isGold: Joi.boolean(),
-  });
-
-  return schema.validate(customer);
-}
 
 export default router;
