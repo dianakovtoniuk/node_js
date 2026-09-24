@@ -1,4 +1,4 @@
-# node_js-master
+# Node.JS
 
 A collection of Node.js / TypeScript exercises and a small REST API, built while working through Mosh Hamedani's Node.js course.
 
