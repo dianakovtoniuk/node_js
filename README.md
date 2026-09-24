@@ -69,7 +69,7 @@ npm test
 
 ---
 
-## Mongoose exercises (`get_backend_courses`, `get_expensive_or_by_courses`, `get_published_courses_by_price`)
+## Mongoose (`get_backend_courses`, `get_expensive_or_by_courses`, `get_published_courses_by_price`)
 
 Each requires a local MongoDB at `mongodb://localhost/mongo-exercises`. Run with `ts-node`:
 
