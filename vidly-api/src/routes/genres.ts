@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { auth } from '../middleware/auth';
 import { Genre, validateGenre } from '../models/genre';
 
 const router = express.Router();
@@ -8,7 +9,7 @@ router.get('/', async (_req: Request, res: Response) => {
   res.send(genres);
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', auth, async (req: Request, res: Response) => {
   const { error } = validateGenre(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -17,7 +18,7 @@ router.post('/', async (req: Request, res: Response) => {
   res.send(genre);
 });
 
-router.put('/:id', async (req: Request, res: Response) => {
+router.put('/:id', auth, async (req: Request, res: Response) => {
   const { error } = validateGenre(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -32,7 +33,7 @@ router.put('/:id', async (req: Request, res: Response) => {
   res.send(genre);
 });
 
-router.delete('/:id', async (req: Request, res: Response) => {
+router.delete('/:id', auth, async (req: Request, res: Response) => {
   const genre = await Genre.findByIdAndDelete(req.params.id);
 
   if (!genre) return res.status(404).send('The genre with the given ID was not found.');

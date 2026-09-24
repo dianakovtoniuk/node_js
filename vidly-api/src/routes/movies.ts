@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { auth } from '../middleware/auth';
 import { Movie, validateMovie } from '../models/movie';
 import { Genre } from '../models/genre';
 
@@ -9,7 +10,7 @@ router.get('/', async (_req: Request, res: Response) => {
   res.send(movies);
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', auth, async (req: Request, res: Response) => {
   const { error } = validateMovie(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -29,7 +30,7 @@ router.post('/', async (req: Request, res: Response) => {
   res.send(movie);
 });
 
-router.put('/:id', async (req: Request, res: Response) => {
+router.put('/:id', auth, async (req: Request, res: Response) => {
   const { error } = validateMovie(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -55,7 +56,7 @@ router.put('/:id', async (req: Request, res: Response) => {
   res.send(movie);
 });
 
-router.delete('/:id', async (req: Request, res: Response) => {
+router.delete('/:id', auth, async (req: Request, res: Response) => {
   const movie = await Movie.findByIdAndDelete(req.params.id);
 
   if (!movie) return res.status(404).send('The movie with the given ID was not found.');

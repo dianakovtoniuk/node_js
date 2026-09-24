@@ -1,7 +1,10 @@
 import express, { Request, Response } from 'express';
+import { auth } from '../middleware/auth';
 import { Customer, validateCustomer } from '../models/customer';
 
 const router = express.Router();
+
+router.use(auth);
 
 router.get('/', async (_req: Request, res: Response) => {
   const customers = await Customer.find().sort('name');
